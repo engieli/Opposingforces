@@ -1,3 +1,4 @@
+using NodeCanvas.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,11 +15,28 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveDir;
     private bool isHiding = false;
     private string currentHideType = "";
+    public Blackboard globalBlackboard;
+    private float hideTime = 0f;
+    public float maxHideTime = 10f;
+
+
 
     void Update()
     {
         if (isHiding)
         {
+            hideTime += Time.deltaTime;
+
+            if (hideTime >= maxHideTime)
+            {
+                globalBlackboard.SetValue("ScareTriggered", true);
+            }
+            else
+            {
+                hideTime = 0f;
+                globalBlackboard.SetValue("ScareTriggered", false);
+            }
+
 
             if (Input.GetKeyDown(KeyCode.E))
             {
